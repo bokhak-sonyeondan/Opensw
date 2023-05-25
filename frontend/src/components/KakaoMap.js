@@ -14,7 +14,6 @@ const KakaoMap = () => {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           });
-
         },
         (error) => {
           console.error(error);
@@ -25,7 +24,6 @@ const KakaoMap = () => {
     }
   }, []);
 
-  
   return (
     <>
       {/* <MakePost currentPosition={currentPosition}/> */}

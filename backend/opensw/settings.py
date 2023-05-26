@@ -134,11 +134,11 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul' #웹 시간 한국시간으로 설정
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False #게시글에 시간 변경 적용
 
 
 # Static files (CSS, JavaScript, Images)

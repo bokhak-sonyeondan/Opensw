@@ -7,6 +7,10 @@ class PostSerializer(serializers.ModelSerializer):
             'id',
             'title',
             'content',
-            'person',
+            'lat',
+            'lng',
+            'personnel',
+            'created_at',
+            'updated_at'
         )
         model = Post

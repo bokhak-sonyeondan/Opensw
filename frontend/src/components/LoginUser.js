@@ -50,7 +50,7 @@ const LoginUser = () => {
           required
         />
         <br />
-        <input className={styles.submit} type="submit" value="submit" />
+        <input className={styles.submit} type="submit" value="로그인" />
       </form>
     </div>
   );

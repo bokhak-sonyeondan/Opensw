@@ -1,11 +1,11 @@
 import { useState } from "react";
-import axios from 'axios'
-import styles from "./RegisterUser.module.css"
+import axios from "axios";
+import styles from "./RegisterUser.module.css";
 const RegisterUser = () => {
   const [email, setEmail] = useState("");
   const [ps1, setPs1] = useState("");
   const [ps2, setPs2] = useState("");
-  const [age, setAge] = useState(0);
+  const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
   const [phone, setPhone] = useState("");
   const [major, setMajor] = useState("");
@@ -33,20 +33,24 @@ const RegisterUser = () => {
   const onSubmit = (event) => {
     event.preventDefault();
     axios
-      .post("http://127.0.0.1:8000/user/rest-auth/registration/", {
-        email: email,
-        password1: ps1,
-        password2: ps2,
-        age: age,
-        gender: gender,
-        phone: phone,
-        major: major,
-        realname: real,
-        
-      },{
-        headers: {
-          'Content-Type': 'application/json' // 요청 헤더에 JSON 형식으로 설정
-        }})
+      .post(
+        "http://127.0.0.1:8000/user/rest-auth/registration/",
+        {
+          email: email,
+          password1: ps1,
+          password2: ps2,
+          age: age,
+          gender: gender,
+          phone: phone,
+          major: major,
+          realname: real,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json", // 요청 헤더에 JSON 형식으로 설정
+          },
+        }
+      )
       .then(function (response) {
         console.log(response);
       })
@@ -56,7 +60,7 @@ const RegisterUser = () => {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <h2 className={styles.title}>회원가입</h2>
       <form onSubmit={onSubmit}>
         <input
@@ -72,6 +76,7 @@ const RegisterUser = () => {
           onChange={onChange}
           placeholder="비밀번호"
           value={ps1}
+          type="password"
           required
         />
         <br />
@@ -80,6 +85,7 @@ const RegisterUser = () => {
           onChange={onChange}
           placeholder="비밀번호 재입력"
           value={ps2}
+          type="password"
           required
         />
         <br />
@@ -88,22 +94,19 @@ const RegisterUser = () => {
           onChange={onChange}
           placeholder="나이"
           value={age}
+          min="0"
+          max="100"
+          type="number"
           required
         />
         <br />
-        <input
-          name="Gender"
-          onChange={onChange}
-          placeholder="성별"
-          value={gender}
-          required
-        />
-        <br />
+
         <input
           name="Phone"
           onChange={onChange}
           placeholder="전화번호"
           value={phone}
+          type="tel"
           required
         />
         <br />
@@ -123,7 +126,29 @@ const RegisterUser = () => {
           required
         />
         <br />
-        <input className={styles.submit} type="submit" value="submit" />
+        <div className={styles.radio}>
+          <input
+            onChange={onChange}
+            checked={gender==="M"}
+            className={styles.radio}
+            type="radio"
+            id="genderChoice1"
+            name="Gender"
+            value="M"
+          />
+          <label htmlFor="genderChoice1">남성</label>
+          <input
+            onChange={onChange}
+            className={styles.radio}
+            checked={gender==="F"}
+            type="radio"
+            id="genderChoice2"
+            name="Gender"
+            value="F"
+          />
+          <label htmlFor="genderChoice2">여성</label>
+        </div>
+        <input className={styles.submit} type="submit" value="회원가입" />
       </form>
     </div>
   );

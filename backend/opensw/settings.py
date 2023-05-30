@@ -79,7 +79,7 @@ ROOT_URLCONF = 'opensw.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['/home/dudcks/test/Opensw/backend/accountdata/templates'],#
+        'DIRS': ['/home/dudcks/test/Opensw/backend/accountdata/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

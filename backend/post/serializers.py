@@ -8,5 +8,7 @@ class PostSerializer(serializers.ModelSerializer):
             'title',
             'content',
             'person',
+            'lat',
+            'lng',
         )
         model = Post

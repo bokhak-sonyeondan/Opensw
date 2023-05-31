@@ -30,8 +30,9 @@ ALLOWED_HOSTS = []
 SITE_ID = 1
 
 # Application definition
-
+ASGI_APPLICATION = "opensw.asgi.application"
 INSTALLED_APPS = [
+    "daphne",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -49,7 +50,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'rest_auth.registration',
-    'allauth.socialaccount'
+    'allauth.socialaccount',
+    'chat',
 ]
 
 REST_FRAMEWORK = {
@@ -99,12 +101,14 @@ WSGI_APPLICATION = 'opensw.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+        "TEST": {
+            "NAME": BASE_DIR / "db.sqlite3",
+        },
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -160,12 +164,12 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
-ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/?verification=1'
-ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/?verification=1'
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/verificated'
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/verificated'
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
 
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' ##콘솔로만 확인
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  ##실제 확인
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' ##콘솔로만 확인
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  ##실제 확인
 
 
 EMAIL_HOST = 'smtp.gmail.com'
@@ -184,6 +188,15 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # 사이트와 관련한 자동응답을 받을 이메일 주소,'webmaster@localhost'
 DEFAULT_FROM_EMAIL = 'bokhak2023@gmail.com'  # 기본 발신 이메일 주소
 EMAIL_SUBJECT_PREFIX = '[account]'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
 
 
 

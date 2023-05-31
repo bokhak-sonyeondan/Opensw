@@ -22,7 +22,7 @@ urlpatterns = [
     path('api/', include('post.urls')),
     
     
-
+    path("chat/", include("chat.urls")),
     path('user/', include("accountdata.urls")),
     #path('', include('allauth.urls')), #패턴이 중복되면 위에서부터 확인해감
 ]

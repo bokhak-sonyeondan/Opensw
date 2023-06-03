@@ -11,17 +11,20 @@ from django.shortcuts import get_object_or_404, render
 
 @login_required
 def room(request, room_id):
-    print(room_id)
-    chat_room = get_object_or_404(ChatRoom, id=room_id)
-    
-    
-    # 채팅방에 속해 있는지 확인하는 로직을 구현
-    if request.user in chat_room.participants.all():
-        print('승인')
-        return render(request, "chat/room.html", {"room_id": room_id,'realname':request.user.realname})
-    else:
-        print('거절')
-        return render(request, "chat/access_denied.html")
+    try:
+        chat_room = ChatRoom.objects.get(id=room_id)
+        
+        # 채팅방에 속해 있는지 확인하는 로직을 구현
+        if request.user in chat_room.participants.all():
+            print('승인')
+            return render(request, "chat/room.html", {"room_id": room_id, 'realname': request.user.realname})
+        else:
+            print('거절')
+            return render(request, "chat/access_denied.html")
+    except ChatRoom.DoesNotExist:
+        # 채팅방이 없을 경우 예외 처리
+        return render(request, "chat/chatroom_not_found.html")
+
 
 
 

@@ -6,7 +6,6 @@ from rest_framework import status
 
 from rest_framework.decorators import api_view
 from django.db.models import Q
-from rest_framework import permissions
 
 class ListPost(generics.ListCreateAPIView):
     queryset = Post.objects.all()
@@ -44,9 +43,8 @@ class ListPost(generics.ListCreateAPIView):
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from django.contrib.auth.models import User
-from django.contrib.auth import get_user_model
 from chat.models import ChatRoom
+from django.shortcuts import redirect
 
 class DetailPost(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
@@ -60,7 +58,10 @@ class DetailPost(generics.RetrieveUpdateDestroyAPIView):
         if instance.match ==1:
             if  (instance.postuser == request.user) | (instance.reciveuser == request.user):
                 serializer = self.get_serializer(instance)
-                return Response(serializer.data, status=status.HTTP_200_OK)
+                url = "http://127.0.0.1:8000/chat/room/" + str(instance.roomnum) + "/"
+                print(url)
+                return redirect(url)
+                #return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response({'detail': 'You are not authorized to view this post'},
                                 status=status.HTTP_403_FORBIDDEN)
@@ -99,10 +100,11 @@ class DetailPost(generics.RetrieveUpdateDestroyAPIView):
                 instance.reciveuser = request.user
                 instance.reciverphone = request.user.phone
                 
-            instance.match=1
-            chat_room = ChatRoom.objects.create()
-            chat_room.participants.set([instance.postuser, instance.reciveuser]) # user1과 user2를 채팅방에 추가
-            chat_room.save()
+                instance.match=1
+                chat_room = ChatRoom.objects.create()
+                chat_room.participants.set([instance.postuser, instance.reciveuser]) # user1과 user2를 채팅방에 추가
+                chat_room.save()
+                instance.roomnum = chat_room.id 
     
     
             serializer = self.get_serializer(instance, data=request.data, partial=partial)

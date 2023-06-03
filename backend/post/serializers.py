@@ -9,7 +9,7 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('id', 'title', 'content','match', 'person', 'postuser','reciveuser','recivertext',
-                  'reciverphone','postphone','lat','lan')
+                  'reciverphone','postphone','lat','lan','roomnum')
 
         
 
@@ -29,6 +29,7 @@ class PostSerializer(serializers.ModelSerializer):
             chat_room = ChatRoom.objects.create()
             chat_room.participants.set([instance.postuser, instance.reciveuser]) # user1과 user2를 채팅방에 추가
             chat_room.save()
+            instance.roomnum = chat_room.id 
         
         if 'recivertext' in validated_data:
             instance.recivertext = validated_data['recivertext']

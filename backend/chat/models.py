@@ -13,7 +13,7 @@ class ChatRoom(models.Model):
     
 class ChatMessage(models.Model):
     room = models.ForeignKey(ChatRoom, on_delete=models.CASCADE)
-    message = models.TextField()
+    message = models.TextField(null=True,blank=True)
     
     
 """chat_room = ChatRoom.objects.create()

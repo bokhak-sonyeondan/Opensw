@@ -5,11 +5,11 @@
 <head>
     <meta charset="utf-8"/>
     <title>Chat Room</title>
-     <link rel="stylesheet" type="text/css" href="{% static 'chat/stylesheet.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'chat/stylesheet.css' %}">
 </head>
 <div id="container">
 <body>
-    <h1 id="title">환영합니다, <span>{{ realname }}님</span></h1>
+    <h1>환영합니다, <span>{{ realname }}님</span></h1>
     <div>
         <button id="go-home-button">홈으로</button> 
         <button id="chat-room-delete-button">채팅방 삭제하기</button>
@@ -18,7 +18,7 @@
     <input id="chat-message-input" type="text" size="100"><br>
     <input id="chat-message-submit" type="button" value="Send">
     {{ room_id|json_script:"room-id" }}
-    <script >
+    <script src="{% static 'chat/chat.js' %}">
         const roomid = JSON.parse(document.getElementById('room-id').textContent);
 
         const chatSocket = new WebSocket(
@@ -29,27 +29,18 @@
             + '/'
         );
 
-        const chatLog = document.querySelector('#chat-log');
-
-
-        document.querySelector('#chat-log').readOnly = true;
-
-        // 스크롤 함수 정의
-        function scrollToBottom() {
-            chatLog.scrollTop = chatLog.scrollHeight;
-        }
-
-    
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
             document.querySelector('#chat-log').value += (data.message + '\n');
-            scrollToBottom();
         };
 
         chatSocket.onclose = function(e) {
             console.error('Chat socket closed unexpectedly');
         };
 
+        document.querySelector('#chat-log').addEventListener('keydown', function(event) {
+            event.preventDefault(); // 키보드 입력 이벤트 기본 동작 막기
+        });
 
         document.querySelector('#chat-message-input').focus();
         document.querySelector('#chat-message-input').onkeyup = function(e) {
@@ -73,20 +64,18 @@
 
         document.querySelector('#chat-room-delete-button').onclick = function(e) {
             const confirmation = confirm('채팅방을 삭제하시겠습니까?');
-
             if (confirmation) {
-
                 chatSocket.send(JSON.stringify({
                     'type': 'chat.delete_room'
                 }));
-                window.location.href = 'http://localhost:3000/'
             }
+            window.location.href = 'http://localhost:3000/'
         };
 
         document.querySelector('#go-home-button').onclick = function(e) {
-           // window.location.href = '/'; // 나중에 url 추가
-           window.location.href = 'http://localhost:3000/'
+            window.location.href = 'http://localhost:3000/'; // 나중에 url 추가
         };
+
 
     </script>
 </body>

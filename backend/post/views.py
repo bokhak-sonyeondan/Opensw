@@ -29,7 +29,7 @@ class ListPost(generics.ListCreateAPIView):
             'postuser': request.user.id,  # 현재 로그인된 사용자의 phone 사용
             'postphone':request.user.phone,
             'lat':request.data.get('lat'),
-            'lan':request.data.get('lan'),
+            'lng':request.data.get('lng'),
         }
 
         serializer = self.get_serializer(data=data)

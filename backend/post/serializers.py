@@ -9,7 +9,7 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('id', 'title', 'content','match', 'person', 'postuser','reciveuser','recivertext',
-                  'reciverphone','postphone','lat','lan','roomnum')
+                  'reciverphone','postphone','lat','lng','roomnum')
 
         
 

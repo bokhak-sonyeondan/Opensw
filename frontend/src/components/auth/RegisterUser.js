@@ -69,7 +69,7 @@ const RegisterUser = () => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>회원가입</h2>
+      {/* <h2 className={styles.title}>회원가입</h2> */}
       <form onSubmit={onSubmit}>
         <input
           name="Email"
@@ -132,6 +132,7 @@ const RegisterUser = () => {
           placeholder="이름"
           value={real}
           required
+          id="name"
         />
         <br />
         <div className={styles.radio}>
@@ -157,6 +158,7 @@ const RegisterUser = () => {
           <label htmlFor="genderChoice2">여성</label>
         </div>
         <p className={isSuccess?styles.success:styles.error}>{error}</p>
+        <hr/>
         <input className={styles.submit} type="submit" value="회원가입" />
       </form>
     </div>

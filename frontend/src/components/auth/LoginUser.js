@@ -46,7 +46,7 @@ const LoginUser = () => {
   };
   return (
     <div>
-      <h2 className={styles.title}>로그인</h2>
+      {/* <h2 className={styles.title}>로그인</h2> */}
       <form onSubmit={onSubmit}>
         <input
           placeholder="Email"
@@ -65,7 +65,8 @@ const LoginUser = () => {
           required
         />
         <p>{error}</p>
-        <br />
+
+        <hr />
         <input className={styles.submit} type="submit" value="로그인" />
       </form>
     </div>

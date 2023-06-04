@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from accountdata import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,5 +25,6 @@ urlpatterns = [
     
     path("chat/", include("chat.urls")),
     path('user/', include("accountdata.urls")),
+    path('verificated/', views.activation_view),
     #path('', include('allauth.urls')), #패턴이 중복되면 위에서부터 확인해감
 ]

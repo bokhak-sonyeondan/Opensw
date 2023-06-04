@@ -9,7 +9,7 @@ const Auth = ({ isLoggedIn,setIsLoggedIn }) => {
   };
   return (
     <div>
-      <h1 className="title">과팅</h1>
+      <h1 className="title">CB💔U</h1>
       <div className={styles.context}>
         {first ? <RegisterUser /> : <LoginUser />}
         <button className={styles.toggle} onClick={onClick}>

@@ -1,0 +1,22 @@
+.container {
+  left: 20px;
+  position: absolute;
+  z-index: +1;
+  top: 75px;
+  height: 360px;
+  width: 400px;
+  background-color: #02343f;
+  border-radius: 20px;
+}
+.subTitle {
+  margin-top: 30px;
+  border-radius: 20px;
+  color: #f0edcc;
+  font-weight: bold;
+}
+.submitForm {
+  margin-top: 50px;
+}
+.submitBtn {
+  margin-top: 10px;
+}

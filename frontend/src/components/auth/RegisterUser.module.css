@@ -1,43 +1,55 @@
-.submit{
-    background-color: white;
-    border: white;
-    border-radius: 20px;
-    width: 200px;
-    height: 30px;
-    margin-top: 30px;
-    padding: 0px;
+.submit {
+  background-color: white;
+  border: white;
+  border-radius: 20px;
+  width: 340px;
+  height: 35px;
+  margin-top: 10px;
+  padding: 0px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
-.title{
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    color: white;
+.submit:hover {
+  background-color: #02343f;
+  transition: 0.5s;
+  font-weight: bold;
+  color: white;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  transition-timing-function: ease-in-out;
 }
-input.radio{
-    width: 20px;
-    height: 20px;
+.title {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  color: white;
 }
-.radio{
-    text-align: left;
-    width: 350px;
-    margin: 0 auto;
+input.radio {
+  width: 20px;
+  height: 20px;
 }
-.container{
-    text-align: center;
+.radio {
+  text-align: left;
+  width: 350px;
+  margin: 0 auto;
+  margin-bottom: 10px;
 }
-label{
-    color: white;
-    text-align: center;
-    margin-left: 5px;
-    margin-bottom: 10px;
-    padding-right: 20px;
+.container {
+  text-align: center;
+}
+label {
+  color: white;
+  text-align: center;
+  margin-left: 5px;
+  margin-bottom: 10px;
+  padding-right: 20px;
 }
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
-.error{
-    color: red;
+.error {
+  color: red;
 }
-.success{
-    color:#0057B8;
+.success {
+  color: #0057b8;
 }

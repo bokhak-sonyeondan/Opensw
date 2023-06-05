@@ -15,13 +15,15 @@ class Post(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False) # post한 게시글 고유번호
     title = models.CharField(max_length=100) # 제목
     content = models.TextField() # 내용
-    user = models.ForeignKey(appuser, null=True, blank=True, on_delete=models.CASCADE) # post한 유저의 model
+    user=models.ForeignKey(appuser, on_delete=models.CASCADE, null=True,related_name='posts_sent',blank=True)
+    reciveuser=models.ForeignKey(appuser, on_delete=models.CASCADE, null=True, related_name='posts_received',blank=True)
     lat = models.FloatField(default=0) # 위도
     lng = models.FloatField(default=0) # 경도
     personnel = models.IntegerField(choices=NUMBER_CHOICES, default=1) # 인원수
     created_at = models.DateTimeField('created_time', auto_now_add=True, null=True) # 작성 시간
     updated_at = models.DateTimeField('updated_time', auto_now=True, null=True) # 수정 시간
-
+    match = models.IntegerField(default=0,null=True)
+    roomnum = models.IntegerField(default=0,null=True,blank=True)
     
     def __str__(self):
         return self.title

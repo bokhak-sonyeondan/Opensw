@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Post
+from chat.models import ChatRoom
 
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,6 +14,25 @@ class PostSerializer(serializers.ModelSerializer):
             'lng',
             'personnel',
             'created_at',
-            'updated_at'
+            'updated_at',
+            'reciveuser',
+            'match',
+            'roomnum',
+            'user',
         )
         model = Post
+        
+        
+    def update(self, instance, validated_data):
+        request = self.context['request']
+        if instance.user != request.user:
+            instance.reciveuser = request.user
+            instance.match=1
+            chat_room = ChatRoom.objects.create()
+            chat_room.participants.set([instance.user, instance.reciveuser]) # user1과 user2를 채팅방에 추가
+            chat_room.save()
+            instance.roomnum = chat_room.id 
+
+            instance.save()
+        
+            return instance

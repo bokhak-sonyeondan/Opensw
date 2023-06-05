@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,8 +30,9 @@ ALLOWED_HOSTS = []
 SITE_ID = 1
 
 # Application definition
-
+ASGI_APPLICATION = "opensw.asgi.application"
 INSTALLED_APPS = [
+    "daphne",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -49,7 +50,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'rest_auth.registration',
-    'allauth.socialaccount'
+    'allauth.socialaccount',
+    'chat',
 ]
 
 REST_FRAMEWORK = {
@@ -103,9 +105,12 @@ WSGI_APPLICATION = 'opensw.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+        "TEST": {
+            "NAME": BASE_DIR / "db.sqlite3",
+        },
     }
 }
 
@@ -150,6 +155,9 @@ USE_TZ = False #DB에 변경된 시간 반영
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'chat/static'),
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -168,8 +176,8 @@ ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/verificated'
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/verificated'
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
 
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' ##콘솔로만 확인
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  ##실제 확인
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' ##콘솔로만 확인
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  ##실제 확인
 
 
 EMAIL_HOST = 'smtp.gmail.com'
@@ -189,6 +197,15 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = 'bokhak2023@gmail.com'  # 기본 발신 이메일 주소
 
 EMAIL_SUBJECT_PREFIX = '[account]'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
 
 
 

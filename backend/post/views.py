@@ -9,7 +9,14 @@ class ListPost(generics.ListCreateAPIView): # 작성
     permission_classes = [permissions.IsAuthenticated] # 인증된 사용자인지 확인
 
     def perform_create(self, serializer): # user 필드를 현재 사용자로 설정
-        serializer.save(user=self.request.user)
+        user = self.request.user
+        serializer.save(user = user,
+                        phone=user.phone,
+                        age=user.age,
+                        gender=user.gender,
+                        major=user.major,
+                        )
+        
 
 
 from rest_framework.response import Response

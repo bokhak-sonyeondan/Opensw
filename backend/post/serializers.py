@@ -19,6 +19,10 @@ class PostSerializer(serializers.ModelSerializer):
             'match',
             'roomnum',
             'user',
+            'gender',
+            'major',
+            'phone',
+            'age',
         )
         model = Post
         

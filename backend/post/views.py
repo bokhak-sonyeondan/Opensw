@@ -2,6 +2,10 @@ from django.shortcuts import render
 from rest_framework import generics, permissions
 from .models import Post
 from .serializers import PostSerializer
+from django.db.models import Q
+from rest_framework.response import Response
+from chat.models import ChatRoom
+from rest_framework import status
 
 class ListPost(generics.ListCreateAPIView): # 작성
     queryset = Post.objects.all() # 객체 설정
@@ -28,3 +32,46 @@ class DetailPost(generics.RetrieveUpdateDestroyAPIView): # 세부정보, 수정,
         if obj.user != self.request.user:
             raise permissions.PermissionDenied
         return obj
+    
+    
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        
+        if instance.match == 1:
+        
+            return Response({'detail': 'matched'},
+                                status=status.HTTP_403_FORBIDDEN)
+        
+        elif Q(instance.match == 0) & Q(instance.user == request.user):
+            instance.content = request.data.get('content')
+            instance.title = request.data.get('title')
+            instance.person = request.data.get('person')
+            serializer = self.get_serializer(instance, data=request.data, partial=partial)
+            serializer.is_valid(raise_exception=True)
+            self.perform_update(serializer)
+
+            if getattr(instance, '_prefetched_objects_cache', None):
+                instance._prefetched_objects_cache = {}
+
+            return Response(serializer.data, status=status.HTTP_200_OK)
+            
+        elif Q(instance.match == 0) & Q(instance.postuser != request.user):
+            
+            instance.reciveuser = request.user
+                
+            instance.match=1
+            chat_room = ChatRoom.objects.create()
+            chat_room.participants.set([instance.user, instance.reciveuser]) # user1과 user2를 채팅방에 추가
+            chat_room.save()
+            instance.roomnum = chat_room.id 
+    
+    
+            serializer = self.get_serializer(instance, data=request.data, partial=partial)
+            serializer.is_valid(raise_exception=True)
+            self.perform_update(serializer)
+
+            if getattr(instance, '_prefetched_objects_cache', None):
+                instance._prefetched_objects_cache = {}
+
+            return Response(serializer.data, status=status.HTTP_200_OK)

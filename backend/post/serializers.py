@@ -20,6 +20,7 @@ class PostSerializer(serializers.ModelSerializer):
             'phone',
             'age',
             'realname',
+            'recievuser',
         )
         model = Post
         
